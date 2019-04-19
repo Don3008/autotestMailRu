@@ -21,8 +21,11 @@ public class ChatPage extends Page {
 
         elements = driver.findElements(CHAT_USER_ELEMENTS);
 
-        System.out.println(Transformer.countUsers(Transformer.wrap(elements)));
+        List<ChatWrapper> wrapElements = Transformer.wrap(elements);
 
+        System.out.println(Transformer.countUsers(wrapElements));
+
+        System.out.println(Transformer.countUsersOnline(wrapElements));
 
     }
 }

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Transformer {
 
@@ -34,9 +35,15 @@ public class Transformer {
         int res = 0;
 
         for (ChatWrapper chat : chats) {
-            if (chat.getmContext().findElement(ONLINE_LOCATOR).isEnabled()) {
-                res++;
+
+            try {
+                chat.getmContext().findElement(ONLINE_LOCATOR);
+            } catch (RuntimeException e) {
+                continue;
             }
+
+            res++;
+
         }
 
         return res;
