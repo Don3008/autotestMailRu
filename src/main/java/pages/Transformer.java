@@ -4,13 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class Transformer {
 
-    private static final By ONLINE_LOCATOR = By.xpath("//*[contains(@class, 'chats_i_img')]//*[contains(@class, 'ic-online')]");
+    private static final By ONLINE_LOCATOR = By.className("ic-online");
 
     private Transformer() {}
 
@@ -37,11 +35,10 @@ public class Transformer {
         for (ChatWrapper chat : chats) {
 
             try {
-                chat.getmContext().findElement(ONLINE_LOCATOR);
+                chat.getContext().findElement(ONLINE_LOCATOR);
             } catch (RuntimeException e) {
                 continue;
             }
-
             res++;
 
         }
