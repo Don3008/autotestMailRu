@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class Transformer {
 
             try {
                 chat.getContext().findElement(ONLINE_LOCATOR);
-            } catch (RuntimeException e) {
+            } catch (NoSuchElementException e) {
                 continue;
             }
             res++;

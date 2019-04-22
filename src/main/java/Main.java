@@ -30,7 +30,6 @@ public class Main {
         //System.out.println(driver.getCurrentUrl());
         cp.execute();
 
-
         Thread.sleep(10000);
 
         driver.quit();
