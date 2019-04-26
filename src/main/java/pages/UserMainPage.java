@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UserMainPage extends Page {
 
-    public static final By MESSAGES_LOCATOR = By.xpath(".//*[contains(text(), 'Сообщения') and @class = 'toolbar_nav_i_tx-w usel-off']");
+    private static final By MESSAGES_LOCATOR = By.xpath(".//*[contains(text(), 'Сообщения') and @class = 'toolbar_nav_i_tx-w usel-off']");
 
     private static final By MESSAGE_FRAME_LOCATOR = By.xpath(".//*[@id = 'hook_Block_MessagesLayer']");
 
@@ -15,16 +15,16 @@ public class UserMainPage extends Page {
         this.driver = driver;
     }
 
-    @Override
-    public void execute() {
+    public void clickMessages() {
         driver.findElement(MESSAGES_LOCATOR).click();
         check();
-        System.out.println(driver.getCurrentUrl());
+        //System.out.println(driver.getCurrentUrl());
     }
 
-    private void check() {
+
+    @Override
+    public void check() {
         (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.visibilityOfElementLocated(MESSAGE_FRAME_LOCATOR));
     }
-
 }

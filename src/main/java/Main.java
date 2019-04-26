@@ -9,26 +9,23 @@ import java.util.List;
 
 public class Main {
 
-    private static WebDriver driver;
-
     public static void main(String[] args) throws InterruptedException {
-        driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver();
 
-        List<Page> pages = new LinkedList<Page>();
+        List<Page> pages = new LinkedList<>();
 
         driver.get("https://ok.ru");
 
 
         LoginPage lp = new LoginPage(driver);
-        lp.execute();
-
+        lp.login();
 
         UserMainPage ump = new UserMainPage(driver);
-        ump.execute();
+        ump.clickMessages();
 
         ChatPage cp = new ChatPage(driver);
         //System.out.println(driver.getCurrentUrl());
-        cp.execute();
+        cp.makeChatPageOperations();
 
         Thread.sleep(10000);
 

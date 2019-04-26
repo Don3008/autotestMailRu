@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class ChatPage extends Page {
 
@@ -17,8 +16,7 @@ public class ChatPage extends Page {
         this.driver = driver;
     }
 
-    @Override
-    public void execute() {
+    public void makeChatPageOperations() {
         List<WebElement> elements;
 
         check();
@@ -29,12 +27,13 @@ public class ChatPage extends Page {
 
         List<ChatWrapper> wrapElements = Transformer.wrap(elements);
 
-        System.out.println(Transformer.countUsers(wrapElements));
+        //System.out.println(Transformer.countUsers(wrapElements));
 
-        System.out.println(Transformer.countUsersOnline(wrapElements));
+        System.out.println("Number of online users: " + Transformer.countUsersOnline(wrapElements));
 
     }
 
+    @Override
     public void check() {
         (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.visibilityOfAllElements(driver.findElements(CHAT_USER_ELEMENTS)));

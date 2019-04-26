@@ -16,12 +16,16 @@ public class LoginPage extends Page {
         this.driver = driver;
     }
 
-    @Override
-    public void execute() {
+    public void login() {
         driver.findElement(XPATH_USERNAME).sendKeys(EMAIL);
         driver.findElement(XPATH_PASSWORD).sendKeys(PASSWORD);
 
         WebElement login = driver.findElement(XPATH_LOGIN);
         login.click();
+    }
+
+    @Override
+    public void check() {
+
     }
 }

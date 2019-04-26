@@ -4,8 +4,8 @@ import org.openqa.selenium.WebDriver;
 
 public abstract class Page {
 
-    protected WebDriver driver;
+    WebDriver driver;
 
-    public abstract void execute();
+    public abstract void check();
 
 }
