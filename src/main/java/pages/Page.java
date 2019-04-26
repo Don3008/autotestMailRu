@@ -6,6 +6,11 @@ public abstract class Page {
 
     WebDriver driver;
 
+    Page(WebDriver driver) {
+        this.driver = driver;
+        check();
+    }
+
     public abstract void check();
 
 }

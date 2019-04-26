@@ -12,7 +12,8 @@ public class UserMainPage extends Page {
     private static final By MESSAGE_FRAME_LOCATOR = By.xpath(".//*[@id = 'hook_Block_MessagesLayer']");
 
     public UserMainPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        // TODO: сделать, чтобы check проверял загрузку текущей старницы
     }
 
     public void clickMessages() {
@@ -26,5 +27,6 @@ public class UserMainPage extends Page {
     public void check() {
         (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.visibilityOfElementLocated(MESSAGE_FRAME_LOCATOR));
+        // TODO: переписать метод, чтобы он проверял корректность загрузки страницы
     }
 }

@@ -10,10 +10,10 @@ import java.util.List;
 
 public class ChatPage extends Page {
 
-    private static final By CHAT_USER_ELEMENTS = By.xpath("//div/*[contains(@data-module, 'messages/ConversationsListItem')]");
+    private static final By CHAT_USER_ELEMENTS = By.xpath(".//div/*[contains(@data-module, 'messages/ConversationsListItem')]");
 
     public ChatPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void makeChatPageOperations() {
@@ -23,11 +23,9 @@ public class ChatPage extends Page {
 
         elements = driver.findElements(CHAT_USER_ELEMENTS);
 
-        //elements.forEach((webElement) -> System.out.println(webElement.getText()));
-
         List<ChatWrapper> wrapElements = Transformer.wrap(elements);
 
-        //System.out.println(Transformer.countUsers(wrapElements));
+        System.out.println("Number of all chats: " + Transformer.countUsers(wrapElements));
 
         System.out.println("Number of online users: " + Transformer.countUsersOnline(wrapElements));
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {// TODO: Сделать всё это в Unit тестах
         WebDriver driver = new ChromeDriver();
 
         List<Page> pages = new LinkedList<>();
@@ -24,7 +24,6 @@ public class Main {
         ump.clickMessages();
 
         ChatPage cp = new ChatPage(driver);
-        //System.out.println(driver.getCurrentUrl());
         cp.makeChatPageOperations();
 
         Thread.sleep(10000);

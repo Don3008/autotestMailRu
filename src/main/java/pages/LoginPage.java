@@ -13,10 +13,10 @@ public class LoginPage extends Page {
     private static final By XPATH_LOGIN = By.xpath(".//input[@data-l = 't,sign_in']");
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
-    public void login() {
+    public void login() {// TODO: должен возвращать экземпляр класса страницы, которую надо загрузить
         driver.findElement(XPATH_USERNAME).sendKeys(EMAIL);
         driver.findElement(XPATH_PASSWORD).sendKeys(PASSWORD);
 
