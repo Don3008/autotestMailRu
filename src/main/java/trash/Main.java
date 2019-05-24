@@ -1,9 +1,11 @@
+package trash;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.ChatPage;
-import pages.LoginPage;
-import pages.Page;
-import pages.UserMainPage;
+import trash.pages.ChatPage;
+import trash.pages.LoginPage;
+import trash.pages.Page;
+import trash.pages.UserMainPage;
 import java.util.LinkedList;
 import java.util.List;
 
