@@ -9,14 +9,14 @@ public class LoginPage extends Page {
     public static final String LOGIN_STR = "technopolisBot117";
     private static final By LOGIN = By.id("field_email");
     private static final By PASSWORD = By.id("field_password");
-    private static final By LOGIN_BUTTON = By.xpath(".//*[@value='Log in']");
+    private static final By LOGIN_BUTTON = By.xpath("//*[@value='Войти']");
     private static final String PASSWORD_STR = "technopolis16";
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    public Page login() {
+    public UserMainPage login() {
         WebElement login = driver.findElement(LOGIN);
         login.sendKeys(LOGIN_STR);
 
