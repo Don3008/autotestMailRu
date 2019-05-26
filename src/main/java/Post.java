@@ -44,6 +44,7 @@ public class Post {
     public void checkElements(WebDriver driver) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
+
         wait.until(visibilityOfPostElement(COMMENT));
         wait.until(visibilityOfPostElement(REPOST));
     }
