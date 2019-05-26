@@ -5,18 +5,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class FirstTest {
 
-    WebDriver driver;
+    private RecommendationsPage reccomendationsPage;
 
-    @Before
-    public void prepare() {
-        driver = new ChromeDriver();
-        driver.get("https://ok.ru/");
-    }
 
     @Test
-    public void testUserMainPage() {
+    public void prepare() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://ok.ru/");
         LoginPage loginPage = new LoginPage(driver);
         UserMainPage userMainPage = loginPage.login();
+        reccomendationsPage = userMainPage.toRecommendationsPage();
     }
+
+//    @Test
+//    public void testRecommendationsMainPage() {
+//
+//    }
 
 }
