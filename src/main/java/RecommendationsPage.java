@@ -24,4 +24,8 @@ public class RecommendationsPage extends Page {
         }
     }
 
+    public Post getPost(int position) {
+        return new Post(driver, position);
+    }
+
 }
