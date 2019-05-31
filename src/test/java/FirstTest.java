@@ -13,13 +13,14 @@ public class FirstTest {
 
     private RecommendationsPage reccomendationsPage;
     private WebDriver driver;
+    private UserMainPage userMainPage;
 
     @Before
     public void prepare() {
         driver = new ChromeDriver();
         driver.get("https://ok.ru/");
         LoginPage loginPage = new LoginPage(driver);
-        UserMainPage userMainPage = loginPage.login();
+        userMainPage = loginPage.login();
         reccomendationsPage = userMainPage.toRecommendationsPage();
     }
 
@@ -61,7 +62,7 @@ public class FirstTest {
 
                     int postCounter = post.getRepostCounter();
 
-                    Assert.assertEquals(1, postCounter - prevCounter);
+                    Assert.assertTrue(postCounter - prevCounter >= 1);
 
                     return true;
                 } else {
@@ -74,6 +75,38 @@ public class FirstTest {
             } else {
                 return;
             }
+        }
+    }
+
+    @Test
+    public void testVisibilityOfJoin() {
+        int i = 0;
+        while (true) {
+            boolean increment = runWithInfinityScroll(i, integer -> {
+                Post post = reccomendationsPage.getPost(integer);
+                if (post.isJoinExists()) {
+                    post.join();
+                    String prevId = post.getId();
+
+                    driver.navigate().refresh();
+                    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+                    reccomendationsPage = userMainPage.toRecommendationsPage();
+
+                    post = reccomendationsPage.getPost(prevId);
+
+                    Assert.assertFalse(post.isJoinExists());
+
+                    return true;
+                } else return false;
+            });
+
+            if (increment) {
+                i++;
+            } else {
+                return;
+            }
+
         }
     }
 

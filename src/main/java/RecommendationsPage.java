@@ -47,7 +47,6 @@ public class RecommendationsPage extends Page {
         return new Post(driver, position);
     }
 
-
     public int getLikeCount() {
         return Integer.parseInt(driver.findElement(LIKE_COUNT).getText());
     }
@@ -105,7 +104,10 @@ public class RecommendationsPage extends Page {
         Assert.assertTrue("Отсутствует ссылка \"здесь\"", isElementPresent(HERE));
         click(HERE);
     }
-
+  
+    public Post getPost(String id) {
+        return new Post(driver, id);
+    }
     public void clickOnInvisibleElement(WebElement element) {
 
         String script = "var object = arguments[0];"
@@ -116,5 +118,4 @@ public class RecommendationsPage extends Page {
 
         ((JavascriptExecutor)driver).executeScript(script, element);
     }
-
 }
