@@ -6,11 +6,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage extends Page {
 
-    public static final String LOGIN_STR = "pavlovdmitriy95@gmail.com";
+    public static final String LOGIN_STR = "technopolisBot117";
     private static final By LOGIN = By.id("field_email");
     private static final By PASSWORD = By.id("field_password");
     private static final By LOGIN_BUTTON = By.xpath("//*[@value='Войти']");
-    private static final String PASSWORD_STR = "tFwwgoinw30";
+    private static final String PASSWORD_STR = "technopolis16";
 
     public LoginPage(WebDriver driver) {
         super(driver);

@@ -6,6 +6,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.concurrent.TimeUnit;
+
 public abstract class Page {
 
     public WebDriver driver;
@@ -31,6 +33,7 @@ public abstract class Page {
     }
 
     public void waitStalenessOfElement(final WebElement webElement) {
-        new WebDriverWait(driver, 3).until(ExpectedConditions.stalenessOf(webElement));
+        //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+        new WebDriverWait(driver, 5).until(ExpectedConditions.stalenessOf(webElement));
     }
 }
