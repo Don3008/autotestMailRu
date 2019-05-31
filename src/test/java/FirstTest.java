@@ -93,6 +93,7 @@ public class FirstTest {
         driver.quit();
     }
 
+    @FunctionalInterface
     public interface Executor {
         boolean execute(int i);
     }
