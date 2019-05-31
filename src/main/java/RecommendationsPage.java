@@ -28,4 +28,8 @@ public class RecommendationsPage extends Page {
         return new Post(driver, position);
     }
 
+    public Post getPost(String id) {
+        return new Post(driver, id);
+    }
+
 }
