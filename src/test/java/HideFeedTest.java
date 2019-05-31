@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class HideFeedTest {
 
     private RecommendationsPage recommendationsPage;
     private WebDriver driver;
-
+ //перенести
     @Before
     public void prepare() {
         driver = new ChromeDriver();
@@ -27,11 +28,18 @@ public class HideFeedTest {
         final WebElement elementX = driver.findElement(recommendationsPage.X);
         recommendationsPage.clickOnInvisibleElement(elementX);
         //recommendationsPage.clickX();
+        //in TestBase
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         recommendationsPage.clickHide();
         recommendationsPage.accept();
         recommendationsPage.clickHere();
+        //new page
         String finalTitle = recommendationsPage.getTitle();
         Assert.assertEquals("Такой объект не найден", startTitle, finalTitle);
+    }
+
+    @After
+    public void close() {
+        driver.close();
     }
 }

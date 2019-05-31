@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class FirstTest {
 
-    private RecommendationsPage reccomendationsPage;
+    private RecommendationsPage recommendationsPage;
     private WebDriver driver;
     private UserMainPage userMainPage;
 
@@ -21,22 +21,25 @@ public class FirstTest {
         driver.get("https://ok.ru/");
         LoginPage loginPage = new LoginPage(driver);
         userMainPage = loginPage.login();
-        reccomendationsPage = userMainPage.toRecommendationsPage();
+        recommendationsPage = userMainPage.toRecommendationsPage();
     }
 
     @Test
     public void testPostsVisible() {
         for (int i = 0; i < 10; i++) {
-            reccomendationsPage.getPost(i);
+            recommendationsPage.getPost(i);
         }
     }
 
     @Test
     public void testInfiniteScroll() {
         int count = 0;
+        //без while
         while (true) {
+            //explicit
+            //condition
             runWithInfinityScroll(count, integer -> {
-                reccomendationsPage.getPost(integer);
+                recommendationsPage.getPost(integer);
                 return true;
             });
             count++;
@@ -54,7 +57,7 @@ public class FirstTest {
 
         while (true) {
             boolean increment = runWithInfinityScroll(i, integer -> {
-                Post post = reccomendationsPage.getPost(integer);
+                Post post = recommendationsPage.getPost(integer);
                 if (post.hasWidgets()) {
                     int prevCounter = post.getRepostCounter();
 
@@ -83,7 +86,7 @@ public class FirstTest {
         int i = 0;
         while (true) {
             boolean increment = runWithInfinityScroll(i, integer -> {
-                Post post = reccomendationsPage.getPost(integer);
+                Post post = recommendationsPage.getPost(integer);
                 if (post.isJoinExists()) {
                     post.join();
                     String prevId = post.getId();
@@ -91,9 +94,9 @@ public class FirstTest {
                     driver.navigate().refresh();
                     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-                    reccomendationsPage = userMainPage.toRecommendationsPage();
+                    recommendationsPage = userMainPage.toRecommendationsPage();
 
-                    post = reccomendationsPage.getPost(prevId);
+                    post = recommendationsPage.getPost(prevId);
 
                     Assert.assertFalse(post.isJoinExists());
 

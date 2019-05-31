@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,5 +28,10 @@ public class LikeTest{
         recommendationsPage.waitStalenessOfElement(likeElement);
         int likeAfter = recommendationsPage.getLikeCount();
         Assert.assertEquals("Количество классов не совпадает", likeAfter, likeBefore + 1);
+    }
+
+    @After
+    public void close() {
+        driver.close();
     }
 }

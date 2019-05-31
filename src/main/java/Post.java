@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,9 +25,12 @@ public class Post {
     private WebElement joinElement;
     private WebDriverWait wait;
 
+    private WebDriver driver;
+
     private boolean hasWidgets;
     private boolean hasJoinButton;
 
+    //WebElement Wrapper
     public Post(WebDriver driver, int index) {
 
         ROOT_LOCATOR = getXpathByIndex(index);
@@ -42,6 +46,9 @@ public class Post {
 
     private void init(WebDriver driver) {
         rootElement = driver.findElement(ROOT_LOCATOR);
+        this.driver = driver;
+
+        //вынести работу с wait
         wait = new WebDriverWait(driver, 10);
 
         checkElements(driver);
@@ -52,6 +59,7 @@ public class Post {
         WebElement innerDiv = rootElement.findElement(By.xpath("./div"));
         id = innerDiv.getAttribute("data-feed-id");
 
+        //без try, оборачиваем отдельно посты
         try {
             commentElement = rootElement.findElement(COMMENT);
             repostElement = rootElement.findElement(REPOST);
@@ -70,8 +78,10 @@ public class Post {
     public void share(WebDriver driver) {
         repostElement.click();
 
+
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
+        //отдельный метод с окном
         WebElement repost = driver.findElement(REPOST_COMMIT);
 
         repost.click();
@@ -95,10 +105,9 @@ public class Post {
         return hasJoinButton;
     }
 
+    //безопасная проверка assert
     public int getRepostCounter() {
-        if (repostElement == null) {
-            throw new NullPointerException("Repost element is null!!!");
-        }
+        checkRootElement();
 
         wait.until(visibilityOfPostElement(COUNTER));
 
@@ -123,10 +132,9 @@ public class Post {
         //wait.until(visibilityOfPostElement(LIKE));
     }
 
+    //assert перенести в Page
     private ExpectedCondition<WebElement> visibilityOfPostElement(By locator) {
-        if (rootElement == null) {
-            throw new NullPointerException("rootElement is null!");
-        }
+        checkRootElement();
 
         return driver -> {
             try {
@@ -137,4 +145,10 @@ public class Post {
             }
         };
     }
+
+    private void checkRootElement() {
+        Assert.assertNull("Root element is not found!", rootElement);
+    }
+
+
 }

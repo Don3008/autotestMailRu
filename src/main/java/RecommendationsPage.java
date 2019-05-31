@@ -7,8 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.swing.*;
-
 public class RecommendationsPage extends Page {
 
     public static final By ICON_LOCATOR = By.xpath(".//a[contains(text(), 'Рекомендации')]");
@@ -26,16 +24,19 @@ public class RecommendationsPage extends Page {
     public static final By HERE = By.xpath(".//a[contains(text(), 'здесь')]");
 
 
+
     public RecommendationsPage(WebDriver driver) {
         super(driver);
     }
 
+    //все передалать
     @Override
     public void check() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
         //wait.until(ExpectedConditions.attributeContains(ICON_LOCATOR, "class", "__active"));
 
+        // слишком сложно
         for (int i = 0; i < 20; i++) {
             By by = Post.getXpathByIndex(i);
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
@@ -71,7 +72,7 @@ public class RecommendationsPage extends Page {
         click(GROUP);
     }
 
-    public void mainPage() {
+    public void goToMainPage() {
         click(MAIN_PAGE);
     }
 
@@ -100,6 +101,7 @@ public class RecommendationsPage extends Page {
         click(ACCEPT);
     }
 
+    //возвращ новый page
     public void clickHere() {
         Assert.assertTrue("Отсутствует ссылка \"здесь\"", isElementPresent(HERE));
         click(HERE);
@@ -108,6 +110,8 @@ public class RecommendationsPage extends Page {
     public Post getPost(String id) {
         return new Post(driver, id);
     }
+
+    //перенести в вспомг класс
     public void clickOnInvisibleElement(WebElement element) {
 
         String script = "var object = arguments[0];"

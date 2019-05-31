@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class JoinGroupTest {
 
-    private RecommendationsPage recommendationsPage;
+    //private RecommendationsPage recommendationsPage;
     private WebDriver driver;
 
     @Before
@@ -21,19 +21,21 @@ public class JoinGroupTest {
     }
 
     @Test
-    public void subscribsGroup() {
-
+    public void subscribeGroup() {
         RecommendationsPage recommendationsPage = new RecommendationsPage(driver);
         recommendationsPage.groups();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         int groupsBefore = recommendationsPage.getGroupCount();
         final WebElement groupElement = driver.findElement(recommendationsPage.GROUP_COUNT);
-        recommendationsPage.mainPage();
+        //методы наз по действиям
+        recommendationsPage.goToMainPage();
         UserMainPage userMainPage = new UserMainPage(driver);
         recommendationsPage = userMainPage.toRecommendationsPage();
+        //заменяем в чеке
         recommendationsPage.waitStalenessOfElement(groupElement);
         recommendationsPage.subscribe();
         recommendationsPage.groups();
+        //новая страница
         int groupsAfter = recommendationsPage.getGroupCount();
         Assert.assertEquals("Количество групп не совпадает", groupsAfter, groupsBefore + 1);
     }
