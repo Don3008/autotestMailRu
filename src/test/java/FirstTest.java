@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +49,7 @@ public class FirstTest {
 
     @Test
     public void testCommentCounter() {
-        Integer i = 0;
+        int i = 0;
 
         while (true) {
             boolean increment = runWithInfinityScroll(i, integer -> {
@@ -87,6 +88,12 @@ public class FirstTest {
         }
     }
 
+    @After
+    public void closeDriver() {
+        driver.quit();
+    }
+
+    @FunctionalInterface
     public interface Executor {
         boolean execute(int i);
     }

@@ -47,6 +47,7 @@ public class RecommendationsPage extends Page {
         return new Post(driver, position);
     }
 
+
     public int getLikeCount() {
         return Integer.parseInt(driver.findElement(LIKE_COUNT).getText());
     }
@@ -115,4 +116,5 @@ public class RecommendationsPage extends Page {
 
         ((JavascriptExecutor)driver).executeScript(script, element);
     }
+
 }
