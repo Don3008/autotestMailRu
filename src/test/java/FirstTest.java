@@ -1,13 +1,22 @@
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import posts.Post;
+import posts.PostUtil;
+import posts.PostWithJoinButton;
+import posts.PostWithWidgetList;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 public class FirstTest {
 
@@ -24,114 +33,105 @@ public class FirstTest {
         recommendationsPage = userMainPage.toRecommendationsPage();
     }
 
+    @After
+    public void close() {
+        driver.close();
+        ;
+    }
+
     @Test
     public void testPostsVisible() {
-        for (int i = 0; i < 10; i++) {
-            recommendationsPage.getPost(i);
-        }
+        List<WebElement> elements = driver.findElements(Post.POST_LOCATOR);
+
+        int num = 5;
+
+        Assert.assertNotNull("List with elements is empty!!!", elements);
+        Assert.assertTrue("List is less than " + num, elements.size() >= 5);
     }
 
     @Test
     public void testInfiniteScroll() {
-        int count = 0;
-        //без while
-        while (true) {
-            //explicit
-            //condition
-            runWithInfinityScroll(count, integer -> {
-                recommendationsPage.getPost(integer);
-                return true;
-            });
-            count++;
 
-            if (count == 60) {
-                Assert.assertTrue(true);
-                return;
+        WebDriverWait wait = new WebDriverWait(driver, 180);
+
+        wait.until(new ExpectedCondition<Boolean>() {
+            @NullableDecl
+            @Override
+            public Boolean apply(@NullableDecl WebDriver driver) {
+                if (driver.findElements(Post.POST_LOCATOR).size() >= 60) {
+                    return Boolean.TRUE;
+                } else {
+                    ((JavascriptExecutor) driver)
+                            .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+                    driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+                    return null;
+                }
             }
-        }
+        });
+
     }
 
     @Test
-    public void testCommentCounter() {
-        int i = 0;
+    public void testRepostCounter() {
+        List<Post> posts = PostUtil.transform(driver.findElements(Post.POST_LOCATOR), driver);
 
-        while (true) {
-            boolean increment = runWithInfinityScroll(i, integer -> {
-                Post post = recommendationsPage.getPost(integer);
-                if (post.hasWidgets()) {
-                    int prevCounter = post.getRepostCounter();
+        for (Post post : posts) {
+            if (post.hasWidgetList()) {
+                PostWithWidgetList postWithWidgetList = post.transformToPostWithWidgetList();
 
-                    post.share(driver);
+                int prevCount = postWithWidgetList.getWidgets().getRepostCount();
 
-                    int postCounter = post.getRepostCounter();
+                postWithWidgetList.share();
 
-                    Assert.assertTrue(postCounter - prevCounter >= 1);
+                int postCount = postWithWidgetList.getWidgets().getRepostCount();
 
-                    return true;
-                } else {
-                    return false;
-                }
-            });
+                Assert.assertTrue("postCount is equal to prevCount!", postCount - prevCount >= 1);
 
-            if (!increment) {
-                i++;
-            } else {
                 return;
             }
         }
+
     }
 
     @Test
     public void testVisibilityOfJoin() {
-        int i = 0;
-        while (true) {
-            boolean increment = runWithInfinityScroll(i, integer -> {
-                Post post = recommendationsPage.getPost(integer);
-                if (post.isJoinExists()) {
-                    post.join();
-                    String prevId = post.getId();
+        List<Post> posts = PostUtil.transform(driver.findElements(Post.POST_LOCATOR), driver);
 
-                    driver.navigate().refresh();
-                    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        for (Post post : posts) {
+            if (post.hasJoinButton()) {
+                PostWithJoinButton postWithJoinButton = post.transformToPostWithJoinButton();
+                final String prevId = postWithJoinButton.getId();
 
-                    recommendationsPage = userMainPage.toRecommendationsPage();
+                postWithJoinButton.join();
 
-                    post = recommendationsPage.getPost(prevId);
+                driver.navigate().refresh();
 
-                    Assert.assertFalse(post.isJoinExists());
+                recommendationsPage = userMainPage.toRecommendationsPage();
 
-                    return true;
-                } else return false;
-            });
+                WebDriverWait wait = new WebDriverWait(driver, 120);
+                wait.until(new ExpectedCondition<Boolean>() {
+                    @NullableDecl
+                    @Override
+                    public Boolean apply(@NullableDecl WebDriver driver) {
+                        List<Post> newPosts = PostUtil.transform(driver.findElements(Post.POST_LOCATOR), driver);
 
-            if (increment) {
-                i++;
-            } else {
+                        Post postTemp = newPosts
+                                .stream()
+                                .findFirst()
+                                .filter(post1 -> post1.getId().equals(prevId))
+                                .get();
+
+                        if (postTemp == null) {
+                            return null;
+                        } else {
+                            return Boolean.TRUE;
+                        }
+                    }
+                });
+
                 return;
             }
-
         }
-    }
-
-    private boolean runWithInfinityScroll(int index, Executor executor) {
-        try {
-            return executor.execute(index);
-        } catch (NoSuchElementException e) {
-            ((JavascriptExecutor) driver)
-                    .executeScript("window.scrollTo(0, document.body.scrollHeight)");
-            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-            return false;
-        }
-    }
-
-    @After
-    public void closeDriver() {
-        driver.quit();
-    }
-
-    @FunctionalInterface
-    public interface Executor {
-        boolean execute(int i);
     }
 
 }

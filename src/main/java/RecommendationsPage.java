@@ -23,6 +23,7 @@ public class RecommendationsPage extends Page {
     public static final By ACCEPT = By.xpath(".//button[contains(text(), 'Подтвердить')]");
     public static final By HERE = By.xpath(".//a[contains(text(), 'здесь')]");
 
+    private static final By POST_LIST = By.className("feed-list");
 
 
     public RecommendationsPage(WebDriver driver) {
@@ -34,18 +35,10 @@ public class RecommendationsPage extends Page {
     public void check() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
-        //wait.until(ExpectedConditions.attributeContains(ICON_LOCATOR, "class", "__active"));
+        wait.until(ExpectedConditions.attributeContains(ICON_LOCATOR, "class", "__active"));
 
-        // слишком сложно
-        for (int i = 0; i < 20; i++) {
-            By by = Post.getXpathByIndex(i);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-            //System.out.println(by.toString());
-        }
-    }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(POST_LIST));
 
-    public Post getPost(int position) {
-        return new Post(driver, position);
     }
 
     public int getLikeCount() {
@@ -59,7 +52,7 @@ public class RecommendationsPage extends Page {
     }
 
     public int getGroupCount() {
-        return Integer.parseInt(driver.findElement(GROUP_COUNT).getText().replaceAll("\\D+","").trim());
+        return Integer.parseInt(driver.findElement(GROUP_COUNT).getText().replaceAll("\\D+", "").trim());
     }
 
     public void subscribe() {
@@ -106,20 +99,15 @@ public class RecommendationsPage extends Page {
         Assert.assertTrue("Отсутствует ссылка \"здесь\"", isElementPresent(HERE));
         click(HERE);
     }
-  
-    public Post getPost(String id) {
-        return new Post(driver, id);
-    }
 
     //перенести в вспомг класс
     public void clickOnInvisibleElement(WebElement element) {
 
         String script = "var object = arguments[0];"
-            + "var theEvent = document.createEvent(\"MouseEvent\");"
-            + "theEvent.initMouseEvent(\"click\", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);"
-            + "object.dispatchEvent(theEvent);"
-            ;
+                + "var theEvent = document.createEvent(\"MouseEvent\");"
+                + "theEvent.initMouseEvent(\"click\", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);"
+                + "object.dispatchEvent(theEvent);";
 
-        ((JavascriptExecutor)driver).executeScript(script, element);
+        ((JavascriptExecutor) driver).executeScript(script, element);
     }
 }
