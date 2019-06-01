@@ -6,11 +6,11 @@ import org.openqa.selenium.WebElement;
 
 public class PostWithJoinButton extends Post {
 
-    public static final By JOIN = By.xpath(".//button[@data-l = 't,join']");
+    static final By JOIN = By.xpath(".//button[@data-l = 't,join']");
 
     private WebElement joinElement;
 
-    public PostWithJoinButton(WebDriver driver, WebElement element) {
+    PostWithJoinButton(WebDriver driver, WebElement element) {
         super(driver, element);
 
         checkJoinElement();

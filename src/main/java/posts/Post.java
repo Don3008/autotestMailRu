@@ -8,13 +8,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Post {
     public static final By POST_LOCATOR = By.xpath(".//*[@class = 'feed-w']");
 
-    private static final String XPATH_BY_ID = ".//*[@data-feed-id = '%s']/..]";
-
     private String id;
 
     WebElement rootElement;
 
-    WebDriver driver;
+    private WebDriver driver;
 
     //WebElement Wrapper
 
@@ -61,7 +59,6 @@ public class Post {
         return id;
     }
 
-    //assert перенести в Page
     private ExpectedCondition<WebElement> visibilityOfPostElement(By locator) {
         checkRootElement();
 

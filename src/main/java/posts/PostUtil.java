@@ -6,8 +6,7 @@ import org.openqa.selenium.WebElement;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PostUtil {
-
+public final class PostUtil {
 
     private PostUtil() {
     }

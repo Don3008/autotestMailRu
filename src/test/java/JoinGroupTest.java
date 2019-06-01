@@ -26,7 +26,7 @@ public class JoinGroupTest {
         recommendationsPage.groups();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         int groupsBefore = recommendationsPage.getGroupCount();
-        final WebElement groupElement = driver.findElement(recommendationsPage.GROUP_COUNT);
+        final WebElement groupElement = driver.findElement(RecommendationsPage.GROUP_COUNT);
         //методы наз по действиям
         recommendationsPage.goToMainPage();
         UserMainPage userMainPage = new UserMainPage(driver);

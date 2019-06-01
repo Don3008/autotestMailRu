@@ -1,12 +1,9 @@
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import posts.Post;
@@ -15,29 +12,10 @@ import posts.PostWithJoinButton;
 import posts.PostWithWidgetList;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 
-public class FirstTest {
-
-    private RecommendationsPage recommendationsPage;
-    private WebDriver driver;
-    private UserMainPage userMainPage;
-
-    @Before
-    public void prepare() {
-        driver = new ChromeDriver();
-        driver.get("https://ok.ru/");
-        LoginPage loginPage = new LoginPage(driver);
-        userMainPage = loginPage.login();
-        recommendationsPage = userMainPage.toRecommendationsPage();
-    }
-
-    @After
-    public void close() {
-        driver.close();
-        ;
-    }
+public class FirstTest extends TestBase {
 
     @Test
     public void testPostsVisible() {
@@ -61,9 +39,7 @@ public class FirstTest {
                 if (driver.findElements(Post.POST_LOCATOR).size() >= 60) {
                     return Boolean.TRUE;
                 } else {
-                    ((JavascriptExecutor) driver)
-                            .executeScript("window.scrollTo(0, document.body.scrollHeight)");
-                    driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+                    scroll();
                     return null;
                 }
             }
@@ -115,16 +91,16 @@ public class FirstTest {
                     public Boolean apply(@NullableDecl WebDriver driver) {
                         List<Post> newPosts = PostUtil.transform(driver.findElements(Post.POST_LOCATOR), driver);
 
-                        Post postTemp = newPosts
-                                .stream()
-                                .findFirst()
-                                .filter(post1 -> post1.getId().equals(prevId))
-                                .get();
+                        try {
+                            newPosts.stream()
+                                    .findFirst()
+                                    .filter(post1 -> post1.getId().equals(prevId))
+                                    .get();
 
-                        if (postTemp == null) {
-                            return null;
-                        } else {
                             return Boolean.TRUE;
+                        } catch (NoSuchElementException e) {
+                            scroll();
+                            return null;
                         }
                     }
                 });
@@ -132,6 +108,12 @@ public class FirstTest {
                 return;
             }
         }
+    }
+
+    private void scroll() {
+        ((JavascriptExecutor) driver)
+                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
 }

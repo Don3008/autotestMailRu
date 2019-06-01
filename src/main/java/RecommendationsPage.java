@@ -26,7 +26,7 @@ public class RecommendationsPage extends Page {
     private static final By POST_LIST = By.className("feed-list");
 
 
-    public RecommendationsPage(WebDriver driver) {
+    RecommendationsPage(WebDriver driver) {
         super(driver);
     }
 
@@ -41,31 +41,31 @@ public class RecommendationsPage extends Page {
 
     }
 
-    public int getLikeCount() {
+    int getLikeCount() {
         return Integer.parseInt(driver.findElement(LIKE_COUNT).getText());
     }
 
-    public void clickLike() {
+    void clickLike() {
         new Actions(driver).moveToElement(driver.findElement(POST)).build().perform();
         Assert.assertTrue("Отсутствует кнопка \"Класс\"", isElementPresent(LIKE));
         click(LIKE);
     }
 
-    public int getGroupCount() {
+    int getGroupCount() {
         return Integer.parseInt(driver.findElement(GROUP_COUNT).getText().replaceAll("\\D+", "").trim());
     }
 
-    public void subscribe() {
+    void subscribe() {
         //new Actions(driver).moveToElement(driver.findElement(POST)).build().perform();
         //Assert.assertTrue("Отсутствует кнопка \"Присоединиться\"", isElementPresent(SUBSCRIPTION));
         driver.findElement(SUBSCRIPTION).click();
     }
 
-    public void groups() {
+    void groups() {
         click(GROUP);
     }
 
-    public void goToMainPage() {
+    void goToMainPage() {
         click(MAIN_PAGE);
     }
 
@@ -73,7 +73,7 @@ public class RecommendationsPage extends Page {
         click(ICON_LOCATOR);
     }
 
-    public String getTitle() {
+    String getTitle() {
         return driver.findElement(TITLE).getText();
     }
 
@@ -83,25 +83,25 @@ public class RecommendationsPage extends Page {
         click(X);
     }
 
-    public void clickHide() {
+    void clickHide() {
         //new Actions(driver).moveToElement(driver.findElement(HIDE), 1, -1).click().build().perform();
         Assert.assertTrue("Отсутствует кнопка \"Скрыть события\"", isElementPresent(HIDE));
         click(HIDE);
     }
 
-    public void accept() {
+    void accept() {
         Assert.assertTrue("Отсутствует кнопка \"Подтвердить\"", isElementPresent(ACCEPT));
         click(ACCEPT);
     }
 
     //возвращ новый page
-    public void clickHere() {
+    void clickHere() {
         Assert.assertTrue("Отсутствует ссылка \"здесь\"", isElementPresent(HERE));
         click(HERE);
     }
 
     //перенести в вспомг класс
-    public void clickOnInvisibleElement(WebElement element) {
+    void clickOnInvisibleElement(WebElement element) {
 
         String script = "var object = arguments[0];"
                 + "var theEvent = document.createEvent(\"MouseEvent\");"
