@@ -28,7 +28,7 @@ public class PostWithWidgetList extends Post {
     }
 
     private void checkWidgetListElements() {
-        checkElement(WidgetListWrapper.REPOST);
-        checkElement(WidgetListWrapper.LIKE);
+        waitElement(WidgetListWrapper.REPOST);
+        waitElement(WidgetListWrapper.LIKE);
     }
 }

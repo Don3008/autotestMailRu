@@ -50,7 +50,7 @@ public class Post {
         return true;
     }
 
-    void checkElement(By locator) {
+    void waitElement(By locator) {
         WebDriverWait wait = new WebDriverWait(driver, 7);
         wait.until(visibilityOfPostElement(locator));
     }

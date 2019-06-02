@@ -30,9 +30,7 @@ public class FirstTest extends TestBase {
     @Test
     public void testInfiniteScroll() {
 
-        WebDriverWait wait = new WebDriverWait(driver, 180);
-
-        wait.until(new ExpectedCondition<Boolean>() {
+        waitUntil(180, new ExpectedCondition<Boolean>() {
             @NullableDecl
             @Override
             public Boolean apply(@NullableDecl WebDriver driver) {
@@ -70,7 +68,7 @@ public class FirstTest extends TestBase {
     }
 
     @Test
-    public void testVisibilityOfJoin() {
+    public void testHasJoinResult() {
         List<Post> posts = PostUtil.transform(driver.findElements(Post.POST_LOCATOR), driver);
 
         for (Post post : posts) {
@@ -80,31 +78,7 @@ public class FirstTest extends TestBase {
 
                 postWithJoinButton.join();
 
-                driver.navigate().refresh();
-
-                recommendationsPage = userMainPage.toRecommendationsPage();
-
-                WebDriverWait wait = new WebDriverWait(driver, 120);
-                wait.until(new ExpectedCondition<Boolean>() {
-                    @NullableDecl
-                    @Override
-                    public Boolean apply(@NullableDecl WebDriver driver) {
-                        List<Post> newPosts = PostUtil.transform(driver.findElements(Post.POST_LOCATOR), driver);
-
-                        try {
-                            newPosts.stream()
-                                    .findFirst()
-                                    .filter(post1 -> post1.getId().equals(prevId))
-                                    .get();
-
-                            return Boolean.TRUE;
-                        } catch (NoSuchElementException e) {
-                            scroll();
-                            return null;
-                        }
-                    }
-                });
-
+                Assert.assertTrue("Join result is invisible!!!", postWithJoinButton.hasJoinResult());
                 return;
             }
         }
@@ -114,6 +88,11 @@ public class FirstTest extends TestBase {
         ((JavascriptExecutor) driver)
                 .executeScript("window.scrollTo(0, document.body.scrollHeight)");
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    }
+
+    private void waitUntil(int time, ExpectedCondition<Boolean> condition) {
+        WebDriverWait wait = new WebDriverWait(driver, time);
+        wait.until(condition);
     }
 
 }
