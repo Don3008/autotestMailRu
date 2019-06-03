@@ -8,17 +8,15 @@ public class HideFeedTest extends TestBase {
 
     @Test
     public void hideFeedTest() {
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        JavaScript javaScript = new JavaScript(driver);
         String startTitle = recommendationsPage.getTitle();
         final WebElement elementX = driver.findElement(recommendationsPage.X);
-        recommendationsPage.clickOnInvisibleElement(elementX);
-        //recommendationsPage.clickX();
-        //in TestBase
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-        recommendationsPage.clickHide();
+        javaScript.clickOnInvisibleElement(elementX);
+        recommendationsPage.clickHideAllEvents();
         recommendationsPage.accept();
-        recommendationsPage.clickHere();
-        //new page
-        String finalTitle = recommendationsPage.getTitle();
+        BlackListPage blackListPage = recommendationsPage.clickToAddBlackList();
+        String finalTitle = blackListPage.getTitle();
         Assert.assertEquals("Такой объект не найден", startTitle, finalTitle);
     }
 
