@@ -7,8 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 public class JoinGroupTest  extends TestBase{
 
-    private RecommendationsPage recommendationsPage;
-
     @Override
     @Before
     public void init() {
@@ -24,7 +22,7 @@ public class JoinGroupTest  extends TestBase{
         GroupPage groupPage = userMainPage.goToGroups();
         int groupsBefore = groupPage.getGroupCount();
         userMainPage = groupPage.goToMainPage();
-        recommendationsPage = userMainPage.toRecommendationsPage();
+        RecommendationsPage recommendationsPage = userMainPage.toRecommendationsPage();
         recommendationsPage.subscribe();
         groupPage = recommendationsPage.goToGroups();
         int groupsAfter = groupPage.getGroupCount();

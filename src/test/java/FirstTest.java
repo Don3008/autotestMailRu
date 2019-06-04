@@ -91,7 +91,7 @@ public class FirstTest extends TestBase {
     }
 
     private void waitUntil(int time, ExpectedCondition<Boolean> condition) {
-        WebDriverWait wait = new WebDriverWait(driver, time);
+        WebDriverWait wait = new WebDriverWait(driver, 180);
         wait.until(condition);
     }
 
