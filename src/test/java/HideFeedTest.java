@@ -9,10 +9,10 @@ public class HideFeedTest extends TestBase {
     @Test
     public void hideFeedTest() {
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-        JavaScript javaScript = new JavaScript(driver);
+        JavaScriptHelper javaScriptHelper = new JavaScriptHelper(driver);
         String startTitle = recommendationsPage.getTitle();
-        final WebElement elementX = driver.findElement(recommendationsPage.X);
-        javaScript.clickOnInvisibleElement(elementX);
+        final WebElement elementX = driver.findElement(RecommendationsPage.X);
+        javaScriptHelper.clickOnInvisibleElement(elementX);
         recommendationsPage.clickHideAllEvents();
         recommendationsPage.accept();
         BlackListPage blackListPage = recommendationsPage.clickToAddBlackList();

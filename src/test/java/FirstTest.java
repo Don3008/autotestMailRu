@@ -1,7 +1,6 @@
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -12,8 +11,6 @@ import posts.PostWithJoinButton;
 import posts.PostWithWidgetList;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
 
 public class FirstTest extends TestBase {
 
@@ -37,7 +34,9 @@ public class FirstTest extends TestBase {
                 if (driver.findElements(Post.POST_LOCATOR).size() >= 60) {
                     return Boolean.TRUE;
                 } else {
-                    scroll();
+                    JavaScriptHelper js = new JavaScriptHelper(driver);
+                    js.scroll();
+
                     return null;
                 }
             }
@@ -82,12 +81,6 @@ public class FirstTest extends TestBase {
                 return;
             }
         }
-    }
-
-    private void scroll() {
-        ((JavascriptExecutor) driver)
-                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
     private void waitUntil(int time, ExpectedCondition<Boolean> condition) {
