@@ -73,7 +73,6 @@ public class FirstTest extends TestBase {
         for (Post post : posts) {
             if (post.hasJoinButton()) {
                 PostWithJoinButton postWithJoinButton = post.transformToPostWithJoinButton();
-                final String prevId = postWithJoinButton.getId();
 
                 postWithJoinButton.join();
 
