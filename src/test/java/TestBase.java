@@ -1,6 +1,7 @@
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TestBase {
@@ -8,6 +9,7 @@ public class TestBase {
     RecommendationsPage recommendationsPage;
     WebDriver driver;
     UserMainPage userMainPage;
+    WebElement webElement;
 
     @Before
     public void init() {

@@ -11,13 +11,12 @@ public class HideFeedTest extends TestBase {
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         JavaScript javaScript = new JavaScript(driver);
         String startTitle = recommendationsPage.getTitle();
-        final WebElement elementX = driver.findElement(recommendationsPage.X);
-        javaScript.clickOnInvisibleElement(elementX);
+        webElement = recommendationsPage.toSearchElement(RecommendationsPage.X);
+        javaScript.clickOnInvisibleElement(webElement);
         recommendationsPage.clickHideAllEvents();
         recommendationsPage.accept();
         BlackListPage blackListPage = recommendationsPage.clickToAddBlackList();
         String finalTitle = blackListPage.getTitle();
         Assert.assertEquals("Такой объект не найден", startTitle, finalTitle);
     }
-
 }

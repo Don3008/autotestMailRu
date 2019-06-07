@@ -78,4 +78,9 @@ public class RecommendationsPage extends Page {
         click(HERE);
         return new BlackListPage(driver);
     }
+
+    WebElement toSearchElement(By by) {
+        Assert.assertTrue("Не найден \"Like\"", isElementPresent(by));
+        return driver.findElement(by);
+    }
 }
