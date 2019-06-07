@@ -9,7 +9,7 @@ public class HideFeedTest extends TestBase {
     @Test
     public void hideFeedTest() {
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-        JavaScript javaScript = new JavaScript(driver);
+        JavaScriptHelper javaScriptHelper = new JavaScriptHelper(driver);
         String startTitle = recommendationsPage.getTitle();
         webElement = recommendationsPage.toSearchElement(RecommendationsPage.X);
         javaScript.clickOnInvisibleElement(webElement);

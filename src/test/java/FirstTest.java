@@ -1,30 +1,23 @@
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import posts.Post;
 import posts.PostUtil;
 import posts.PostWithJoinButton;
 import posts.PostWithWidgetList;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
 
 public class FirstTest extends TestBase {
 
     @Test
     public void testPostsVisible() {
-        List<WebElement> elements = driver.findElements(Post.POST_LOCATOR);
-
         int num = 5;
+        int size = PostUtil.countPosts(driver);
 
-        Assert.assertNotNull("List with elements is empty!!!", elements);
-        Assert.assertTrue("List is less than " + num, elements.size() >= 5);
+        Assert.assertTrue("List is less than " + num, size >= 5);
     }
 
     @Test
@@ -34,10 +27,12 @@ public class FirstTest extends TestBase {
             @NullableDecl
             @Override
             public Boolean apply(@NullableDecl WebDriver driver) {
-                if (driver.findElements(Post.POST_LOCATOR).size() >= 60) {
+                if (PostUtil.countPosts(driver) >= 60) {
                     return Boolean.TRUE;
                 } else {
-                    scroll();
+                    JavaScriptHelper js = new JavaScriptHelper(driver);
+                    js.scroll();
+
                     return null;
                 }
             }
@@ -74,7 +69,6 @@ public class FirstTest extends TestBase {
         for (Post post : posts) {
             if (post.hasJoinButton()) {
                 PostWithJoinButton postWithJoinButton = post.transformToPostWithJoinButton();
-                final String prevId = postWithJoinButton.getId();
 
                 postWithJoinButton.join();
 
@@ -82,17 +76,6 @@ public class FirstTest extends TestBase {
                 return;
             }
         }
-    }
-
-    private void scroll() {
-        ((JavascriptExecutor) driver)
-                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-    }
-
-    private void waitUntil(int time, ExpectedCondition<Boolean> condition) {
-        WebDriverWait wait = new WebDriverWait(driver, time);
-        wait.until(condition);
     }
 
 }

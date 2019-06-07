@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WidgetListWrapper {
 
-    public static final By WIDGET_LIST = By.xpath(".//*[@class = 'feed_f']/ul[@class = 'widget-list h-mod']");
+    static final By WIDGET_LIST = By.xpath(".//*[@class = 'feed_f']/ul[@class = 'widget-list h-mod']");
 
     static final By REPOST = By.xpath(".//button[@data-type = 'RESHARE']");
     static final By LIKE = By.xpath(".//*[@data-module = 'ReactComponent']");
@@ -26,7 +26,7 @@ public class WidgetListWrapper {
     private WebElement likeElement;
     private WebElement repostElement;
 
-    public WidgetListWrapper(WebElement rootElement, WebDriver driver) {
+    WidgetListWrapper(WebElement rootElement, WebDriver driver) {
         this.driver = driver;
 
         context = rootElement.findElement(WIDGET_LIST);
@@ -35,11 +35,11 @@ public class WidgetListWrapper {
         repostElement = context.findElement(REPOST);
     }
 
-    public void repost() {
+    void repost() {
         repostElement.click();
     }
 
-    public void repostNow() {
+    void repostNow() {
         waitRepostNow();
 
         WebElement element = context.findElement(REPOST_COMMIT);

@@ -1,6 +1,9 @@
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -33,10 +36,8 @@ public class LoginPage extends Page {
 
     @Override
     public void check() {
-        WebDriverWait waiter = new WebDriverWait(driver, 10);
-
-        waiter.until(ExpectedConditions.visibilityOfElementLocated(LOGIN));
-        waiter.until(ExpectedConditions.visibilityOfElementLocated(PASSWORD));
-        waiter.until(ExpectedConditions.visibilityOfElementLocated(LOGIN_BUTTON));
+        checkElement("Login field isn't visible!!!", LOGIN);
+        checkElement("Password field isn't visible!!!", PASSWORD);
+        checkElement("Login button isn't visible!!!", LOGIN_BUTTON);
     }
 }

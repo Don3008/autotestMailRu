@@ -1,28 +1,28 @@
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class RecommendationsPage extends Page {
 
-    public static final By ICON_LOCATOR = By.xpath(".//a[contains(text(), 'Рекомендации')]");
-    public static final By LIKE_COUNT = By.xpath(".//span[@data-module='ReactComponent']/span[contains(@class,'count')]");
-    public static final By POST = By.xpath(".//div[@class='feed-w']");
-    public static final By LIKE = By.xpath(".//div[contains(@class, '__wide-count')]");
-    public static final By SUBSCRIPTION = By.xpath(".//*[contains(text(), 'Присоединиться')]");
-    public static final By TITLE = By.xpath(".//a[contains(@hrefattrs, 'st.cmd')]");
-    public static final By GROUP = By.xpath(".//a[contains(@data-l, 'userAltGroup')]");
-    public static final By X = By.xpath(".//a[@class='feed_close']");
-    public static final By HIDE = By.xpath(".//input[@name='st.uo']");
-    public static final By ACCEPT = By.xpath(".//button[contains(text(), 'Подтвердить')]");
-    public static final By HERE = By.xpath(".//a[contains(text(), 'здесь')]");
+    static final By ICON_LOCATOR = By.xpath(".//a[contains(text(), 'Рекомендации')]");
+    static final By LIKE_COUNT = By.xpath(".//span[@data-module='ReactComponent']/span[contains(@class,'count')]");
+    static final By X = By.xpath(".//a[@class='feed_close']");
+
+    private static final By POST = By.xpath(".//div[@class='feed-w']");
+    private static final By LIKE = By.xpath(".//div[contains(@class, '__wide-count')]");
+    private static final By SUBSCRIPTION = By.xpath(".//*[contains(text(), 'Присоединиться')]");
+    private static final By TITLE = By.xpath(".//a[contains(@hrefattrs, 'st.cmd')]");
+    private static final By GROUP = By.xpath(".//a[contains(@data-l, 'userAltGroup')]");
+    private static final By HIDE = By.xpath(".//input[@name='st.uo']");
+    private static final By ACCEPT = By.xpath(".//button[contains(text(), 'Подтвердить')]");
+    private static final By HERE = By.xpath(".//a[contains(text(), 'здесь')]");
 
     private static final By POST_LIST = By.className("feed-list");
-
 
     RecommendationsPage(WebDriver driver) {
         super(driver);
@@ -32,10 +32,10 @@ public class RecommendationsPage extends Page {
     public void check() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
-        wait.until(ExpectedConditions.attributeContains(ICON_LOCATOR, "class", "__active"));
+        Assert.assertTrue("Recommendation icon is inactive!!!",
+                wait.until(ExpectedConditions.attributeContains(ICON_LOCATOR, "class", "__active")));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(POST_LIST));
-
+        checkElement("Post list isn't visible", POST_LIST);
     }
 
     int getLikeCount() {

@@ -2,17 +2,20 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class JavaScript extends Page{
+import java.util.concurrent.TimeUnit;
 
-     //WebDriver driver;
+class JavaScriptHelper {
 
-    JavaScript(WebDriver driver) {
-        super(driver);
+    private WebDriver driver;
+
+    JavaScriptHelper(WebDriver driver) {
+        this.driver = driver;
     }
 
-    @Override
-    public void check() {
-
+    void scroll() {
+        ((JavascriptExecutor) driver)
+                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
     void clickOnInvisibleElement(WebElement element) {
