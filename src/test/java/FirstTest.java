@@ -2,9 +2,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import posts.Post;
 import posts.PostUtil;
 import posts.PostWithJoinButton;
@@ -16,12 +14,10 @@ public class FirstTest extends TestBase {
 
     @Test
     public void testPostsVisible() {
-        List<WebElement> elements = driver.findElements(Post.POST_LOCATOR);
-
         int num = 5;
+        int size = PostUtil.countPosts(driver);
 
-        Assert.assertNotNull("List with elements is empty!!!", elements);
-        Assert.assertTrue("List is less than " + num, elements.size() >= 5);
+        Assert.assertTrue("List is less than " + num, size >= 5);
     }
 
     @Test
@@ -31,7 +27,7 @@ public class FirstTest extends TestBase {
             @NullableDecl
             @Override
             public Boolean apply(@NullableDecl WebDriver driver) {
-                if (driver.findElements(Post.POST_LOCATOR).size() >= 60) {
+                if (PostUtil.countPosts(driver) >= 60) {
                     return Boolean.TRUE;
                 } else {
                     JavaScriptHelper js = new JavaScriptHelper(driver);
@@ -80,11 +76,6 @@ public class FirstTest extends TestBase {
                 return;
             }
         }
-    }
-
-    private void waitUntil(int time, ExpectedCondition<Boolean> condition) {
-        WebDriverWait wait = new WebDriverWait(driver, 180);
-        wait.until(condition);
     }
 
 }

@@ -2,6 +2,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestBase {
 
@@ -21,5 +23,10 @@ public class TestBase {
     @After
     public void close() {
         driver.close();
+    }
+
+    void waitUntil(int time, ExpectedCondition<Boolean> condition) {
+        WebDriverWait wait = new WebDriverWait(driver, time);
+        wait.until(condition);
     }
 }

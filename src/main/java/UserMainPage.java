@@ -7,15 +7,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UserMainPage extends Page {
 
-    public static final By GROUP = By.xpath(".//a[contains(@data-l, 'userAltGroup')]");
+    private static final By GROUP = By.xpath(".//a[contains(@data-l, 'userAltGroup')]");
 
-    public UserMainPage(WebDriver driver) {
+    UserMainPage(WebDriver driver) {
         super(driver);
     }
 
-    public RecommendationsPage toRecommendationsPage() {
-        WebElement element = driver.findElement(RecommendationsPage.ICON_LOCATOR);
-        element.click();
+    RecommendationsPage toRecommendationsPage() {
+        Assert.assertTrue("Recommendation page icon is absent!!!", isElementPresent(RecommendationsPage.ICON_LOCATOR));
+
+        click(RecommendationsPage.ICON_LOCATOR);
         return new RecommendationsPage(driver);
     }
 
