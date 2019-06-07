@@ -1,7 +1,10 @@
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -31,4 +34,17 @@ public abstract class Page implements Checkable {
         //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
         new WebDriverWait(driver, 5).until(ExpectedConditions.stalenessOf(webElement));
     }
+
+    protected void checkElement(String message, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+
+        Assert.assertTrue(message, wait.until(new ExpectedCondition<Boolean>() {
+            @NullableDecl
+            @Override
+            public Boolean apply(@NullableDecl WebDriver driver) {
+                return isElementPresent(locator);
+            }
+        }));
+    }
+
 }

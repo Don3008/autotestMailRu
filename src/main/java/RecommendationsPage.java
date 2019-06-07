@@ -1,7 +1,9 @@
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -22,7 +24,6 @@ public class RecommendationsPage extends Page {
 
     private static final By POST_LIST = By.className("feed-list");
 
-
     RecommendationsPage(WebDriver driver) {
         super(driver);
     }
@@ -31,10 +32,10 @@ public class RecommendationsPage extends Page {
     public void check() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
-        wait.until(ExpectedConditions.attributeContains(ICON_LOCATOR, "class", "__active"));
+        Assert.assertTrue("Recommendation icon is inactive!!!",
+                wait.until(ExpectedConditions.attributeContains(ICON_LOCATOR, "class", "__active")));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(POST_LIST));
-
+        checkElement("Post list isn't visible", POST_LIST);
     }
 
     int getLikeCount() {

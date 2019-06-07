@@ -1,7 +1,9 @@
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,7 +26,13 @@ public class UserMainPage extends Page {
     public void check() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(RecommendationsPage.ICON_LOCATOR));
+        Assert.assertTrue(wait.until(new ExpectedCondition<Boolean>() {
+            @NullableDecl
+            @Override
+            public Boolean apply(@NullableDecl WebDriver driver) {
+                return isElementPresent(RecommendationsPage.ICON_LOCATOR);
+            }
+        }));
     }
 
     GroupPage goToGroups() {
